@@ -14,7 +14,7 @@ class Client:
         print(f'Connection established to: {(self.HOST, self.PORT)}')
 
     def disconnect(self):
-        if self.server_socket:
+        if hasattr(self, 'server_socket'):
             self.server_socket.send(bytes('bye bye', 'utf-8'))
             self.server_socket.close()
             print(f'Connection to {(self.HOST, self.PORT)} closed')
