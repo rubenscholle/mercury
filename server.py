@@ -3,7 +3,7 @@ import socket
 HOST = '127.0.0.1'
 PORT = 61234
 
-HEADER_LENGTH = 10
+HEADER_LENGTH = 8
 
 def send_msg(socket, msg):
     msg = f'{len(msg):<{HEADER_LENGTH}}' + msg
@@ -29,7 +29,6 @@ while True:
 
     msg_from_client = clientsocket.recv(1024)
     if msg_from_client:
-        print(f'Received the following message from client {address}:')
-        print(msg_from_client.decode('utf-8'))
+        print(f'Received the following message from client {address}: {msg_from_client}')
         if msg_from_client.decode('utf-8') == 'bye bye':
             clientsocket.close()
