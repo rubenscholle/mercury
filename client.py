@@ -1,4 +1,5 @@
 import socket
+import helpers
 
 class Client:
     '''A class for initializing a client
@@ -50,6 +51,8 @@ class Client:
                 break
 
 client = Client('127.0.0.1', 61234)
+client.data = helpers.csv_to_dict('C:/Users/ruben/OneDrive/Projects/mercury/input/movies.csv', sep='\t')
+print(client.data)
 client.connect()
 client.receive(16)
 client.disconnect()
