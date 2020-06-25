@@ -1,13 +1,15 @@
 import socket
 import helpers
+import json
 
 class Client:
     '''A class for initializing a client
     '''
 
-    def __init__(self, host, port):
+    def __init__(self, host, port, header_size=8):
         self.HOST = host
         self.PORT = port
+        self.HEADER_SIZE = header_size
 
     def connect(self):
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -50,9 +52,18 @@ class Client:
                 print(f'New message: "{full_message[header_size:]}"')
                 break
 
+    def send(self, data):
+        if hasattr(self, 'server_socket'):
+            message = json.dumps(data)
+            message = f'{len(message):<{self.HEADER_SIZE}}{message}'
+            self.server_socket.send(bytes(message, 'utf-8'))
+            print(f'Message sent to {(self.HOST, self.PORT)}')
+        else:
+            print('No connection active')            
+
 client = Client('127.0.0.1', 61234)
 client.data = helpers.csv_to_dict('C:/Users/ruben/OneDrive/Projects/mercury/input/movies.csv', sep='\t')
-print(client.data)
 client.connect()
 client.receive(16)
+client.send(client.data)
 client.disconnect()
