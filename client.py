@@ -49,9 +49,11 @@ class Client:
             chunk = self.server_socket.recv(buf_size).decode('utf-8')
             full_message += chunk 
 
-        print(f'From {(self.HOST, self.PORT)}: {full_message}')    
+        print(f'From {(self.HOST, self.PORT)}: {full_message}')
 
-    def send(self, data):
+        return full_message    
+
+    def send_data(self, data):
         '''Send DATA to the HOST
         '''
 
@@ -68,6 +70,5 @@ client = Client('127.0.0.1', 61234)
 client.data = helpers.csv_to_dict('C:/Users/ruben/OneDrive/Projects/mercury/input/movies.csv', sep='\t')
 client.connect()
 client.retrieve(16)
-client.send(client.data)
-client.retrieve(16)
+client.send_data(client.data)
 client.disconnect()
