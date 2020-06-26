@@ -21,18 +21,14 @@ while True:
     
     msg = 'Welcome to the Käsekuchen server!'
     msg = f'{len(msg):<{HEADER_SIZE}}{msg}'
+    print(msg)
     client_socket.send(bytes(msg, 'utf-8'))
     
-#    msg = 'test'
-#    print(msg)
-#    msg = f'{len(msg):<{HEADER_SIZE}}' + msg
-#    client_socket.send(bytes(msg, 'utf-8'))
-
     msg_from_client = client_socket.recv(2048)
     if msg_from_client:
-        print(f'Received the following message from client {address}: {msg_from_client}')
+        #print(f'Received the following message from client {address}: {msg_from_client}')
         if msg_from_client.decode('utf-8') == 'bye bye':
             client_socket.close()
         else:
             data = msg_from_client[HEADER_SIZE:].decode('utf-8')
-            client_socket.close() 
+            send_msg(client_socket, data)
