@@ -66,9 +66,9 @@ class Client:
         self.server_socket.send(bytes(message, 'utf-8'))
         print(f'Data sent to {(self.HOST, self.PORT)}')          
 
-client = Client('127.0.0.1', 61234)
+client = Client('127.0.0.1', 61235)
 client.data = helpers.csv_to_dict('C:/Users/ruben/OneDrive/Projects/mercury/input/movies.csv', sep='\t')
 client.connect()
 client.retrieve(16)
-client.send_data(client.data)
+#client.send_data(client.data)
 client.disconnect()
