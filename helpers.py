@@ -18,7 +18,7 @@ def send_message(socket, message, header_size=8):
     '''Send message to socket
     '''
 
-    message = f'{len(message):<{header_size}}' + message
+    message = f'{len(message):<{header_size}}{message}'
     socket.send(bytes(message, 'utf-8'))
     return
 
@@ -46,4 +46,4 @@ def receive(socket, buf_size=1024, header_size=8):
         return full_message 
     else:
         print(f'{socket.getpeername()} has closed the connection')
-        return         
+        return

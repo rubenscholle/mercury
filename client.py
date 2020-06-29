@@ -1,5 +1,6 @@
 import socket
 import helpers
+import json
 
 class Client:
     '''A class for initializing a client
@@ -8,6 +9,7 @@ class Client:
     def __init__(self, host, port):
         self.HOST = host
         self.PORT = port
+        self.data = {}
 
     def connect(self):
         '''Open socket and connect to the HOST via PORT
@@ -18,10 +20,11 @@ class Client:
         print(f'Connection established to: {(self.HOST, self.PORT)}')
 
         message_from_server = helpers.receive(self.server_socket)
-        if message_from_server:
-            print(message_from_server)
+        if message_from_server == 'No data available':
+            print(f'{self.server_socket.getpeername()}: {message_from_server}')
             return
         else:
+            self.data = json.loads(message_from_server)
             return
 
     def disconnect(self):
@@ -32,14 +35,28 @@ class Client:
             print('No connection active')
             return
 
-        helpers.send_message(self.server_socket, 'bye bye')
         self.server_socket.close()
-        print(f'Connection to {(self.HOST, self.PORT)} closed')      
+        print(f'Connection to {(self.HOST, self.PORT)} closed')
+
+    def import_database(self, input_file, database_name='new_database'):
+        self.connect()
+        
+        self.data[f'{database_name}'] = helpers.csv_to_dict(input_file, sep='\t')
+        helpers.send_data(self.server_socket, self.data)
+
+        self.disconnect()
+        return        
 
 # ----------------------------------------
 
 client = Client('127.0.0.1', 61235)
-client.movie_database = helpers.csv_to_dict('C:/Users/ruben/OneDrive/Projects/mercury/input/movies.csv', sep='\t')
 
 client.connect()
 client.disconnect()
+
+client.import_database('C:/Users/ruben/OneDrive/Projects/mercury/input/movies.csv')
+
+client.connect()
+print(client.data)
+client.disconnect()
+
