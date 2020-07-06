@@ -5,8 +5,6 @@ import json
 HOST = '127.0.0.1'
 PORT = 61235
 
-HEADER_SIZE = 8
-
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.bind((HOST, PORT))
 server_socket.listen(3)
@@ -30,5 +28,4 @@ while True:
             break
         else:
             print(f'{address}: data received')
-            data = json.loads(message_from_client)
-            print(type(data))
+            # data = json.loads(message_from_client)

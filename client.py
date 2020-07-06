@@ -52,9 +52,12 @@ class Client:
 client = Client('127.0.0.1', 61235)
 
 client.connect()
+print(client.data)
 client.disconnect()
 
 client.import_database('C:/Users/ruben/OneDrive/Projects/mercury/input/movies.csv')
+client.data = []
+print(client.data)
 
 client.connect()
 print(client.data)
