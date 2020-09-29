@@ -1,5 +1,4 @@
 MERCURY (Projectname)
-
 Example Server-Client interaction application with python
 
 Getting Started
